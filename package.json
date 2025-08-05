@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && tsc-alias",
+    "start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node -r tsconfig-paths/register src/main/server.ts'",
     "test": "jest --silent --watchAll"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/OPthyago/financas_pessoais#readme",
   "description": "",
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/jest": "^30.0.0",
     "@types/uuid": "^10.0.0",
     "jest": "^30.0.4",
@@ -27,11 +29,13 @@
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
-    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "graphql": "^16.11.0",
     "graphql-tag": "^2.12.6",
     "uuid": "^11.1.0"

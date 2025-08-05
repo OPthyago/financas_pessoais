@@ -1,7 +1,7 @@
 import { IController, HttpRequest } from "@/infra/controllers";
 
 export const adaptResolver = (controller: IController) => {
-  return async (parent: any, args: any, context: any) => {
+  return async (_parent: any, args: any) => {
     const httpRequest: HttpRequest = {
       params: args
     }
