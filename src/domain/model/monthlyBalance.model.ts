@@ -1,7 +1,15 @@
 import { CustomError } from "../errors";
-import { FinancialItem, FinancialItemType } from "./financialItem";
+import { FinancialItem, FinancialItemType, Category, FinancialEstimate } from "@/domain/model";
+import { v4 as uuidv4 } from 'uuid';
 
 export type BalanceStatus = 'OPEN' | 'CLOSED';
+
+export type NewFinancialItemData = {
+  name: string;
+  type: FinancialItemType;
+  category: Category;
+  value: number;
+};
 
 export class MonthlyBalance {
   private readonly _items: FinancialItem[];
@@ -26,11 +34,15 @@ export class MonthlyBalance {
     return this._status;
   }
 
-  addItem(item: FinancialItem): void {
+  addItem(data: NewFinancialItemData): void {
     if (this._status === 'CLOSED') {
       throw new CustomError('Cannot add items to a closed monthly balance.', 400);
     }
-    this._items.push(item);
+    const id = uuidv4();
+    const estimate = new FinancialEstimate(data.value, data.value, data.value);
+    const newItem = new FinancialItem(id, data.name, data.type, data.category, estimate);
+
+    this._items.push(newItem);
   }
 
   getTotalIncomes(): number {

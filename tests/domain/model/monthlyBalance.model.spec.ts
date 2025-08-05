@@ -3,7 +3,7 @@ import {
   FinancialItem,
   FinancialEstimate,
   Category
-} from '@/domain';
+} from '@/domain/model';
 
 describe('MonthlyBalance', () => {
   it('should be created with an ID and start with no financial items', () => {
@@ -20,17 +20,17 @@ describe('MonthlyBalance', () => {
   it('should add a new financial item to its list', () => {
     const balance = new MonthlyBalance('2025-07');
     const salaryCategory = new Category('cat-1', 'Salary');
-    const newItem = new FinancialItem(
-      'item-1',
-      'July Salary',
-      'INCOME',
-      salaryCategory,
+
+    balance.addItem({
+      name: 'item-1',
+      value: 10,
+      type: 'INCOME',
+      category: salaryCategory,
+    }
     );
 
-    balance.addItem(newItem);
-
     expect(balance.incomes).toHaveLength(1);
-    expect(balance.incomes[0]).toBe(newItem);
+    expect(balance.incomes[0]).toBeDefined();
     expect(balance.expenses).toHaveLength(0);
   });
 
@@ -59,9 +59,24 @@ describe('when calculating totals', () => {
   it.each([
     {
       items: [
-        new FinancialItem('i1', 'Salary 1', 'INCOME', new Category('c1', 'Salary'), new FinancialEstimate(5000, 5000, 5000)),
-        new FinancialItem('i2', 'Salary 2', 'INCOME', new Category('c1', 'Salary'), new FinancialEstimate(3000, 3000, 3000)),
-        new FinancialItem('e1', 'Rent', 'EXPENSE', new Category('c2', 'Housing'), new FinancialEstimate(2000, 2000, 2000)),
+        {
+          name: 'i1',
+          type: 'INCOME',
+          category: new Category('c1', 'Salary'),
+          value: 5000
+        },
+        {
+          name: 'i2',
+          type: 'INCOME',
+          category: new Category('c1', 'Salary'),
+          value: 3000
+        },
+        {
+          name: 'e1',
+          type: 'EXPENSE',
+          category: new Category('c2', 'Housing'),
+          value: 2000
+        }
       ],
       expectedTotal: 8000,
       case: 'with multiple incomes'
@@ -90,16 +105,36 @@ describe('when calculating totals', () => {
   it.each([
     {
       items: [
-        new FinancialItem('i1', 'Salary 1', 'INCOME', new Category('c1', 'Salary'), new FinancialEstimate(5000, 5000, 5000)),
-        new FinancialItem('e1', 'Rent', 'EXPENSE', new Category('c2', 'Housing'), new FinancialEstimate(2000, 2000, 2000)),
-        new FinancialItem('e2', 'Internet', 'EXPENSE', new Category('c2', 'Housing'), new FinancialEstimate(150, 150, 150)),
+        {
+          name: 'i1',
+          type: 'INCOME',
+          category: new Category('c1', 'Salary'),
+          value: 5000
+        },
+        {
+          name: 'e1',
+          type: 'EXPENSE',
+          category: new Category('c2', 'Housing'),
+          value: 2000
+        },
+        {
+          name: 'e2',
+          type: 'EXPENSE',
+          category: new Category('c2', 'Housing'),
+          value: 150
+        },
       ],
       expectedTotal: 2150,
       case: 'with multiple expenses'
     },
     {
       items: [
-        new FinancialItem('i1', 'Salary 1', 'INCOME', new Category('c1', 'Salary'), new FinancialEstimate(5000, 5000, 5000)),
+        {
+          name: 'i1',
+          type: 'INCOME',
+          category: new Category('c1', 'Salary'),
+          value: 5000
+        },
       ],
       expectedTotal: 0,
       case: 'with no expenses'
@@ -116,9 +151,24 @@ describe('when calculating totals', () => {
   it('should return the correct final balance (incomes - expenses)', () => {
     const balance = new MonthlyBalance('2025-07');
     const items = [
-      new FinancialItem('i1', 'Salary 1', 'INCOME', new Category('c1', 'Salary'), new FinancialEstimate(0, 0, 5000)),
-      new FinancialItem('e1', 'Rent', 'EXPENSE', new Category('c2', 'Housing'), new FinancialEstimate(0, 0, 2000)),
-      new FinancialItem('e2', 'Internet', 'EXPENSE', new Category('c2', 'Housing'), new FinancialEstimate(0, 0, 150)),
+      {
+        name: 'i1',
+        type: 'INCOME',
+        category: new Category('c1', 'Salary'),
+        value: 5000
+      },
+      {
+        name: 'e1',
+        type: 'EXPENSE',
+        category: new Category('c2', 'Housing'),
+        value: 2000
+      },
+      {
+        name: 'e2',
+        type: 'EXPENSE',
+        category: new Category('c2', 'Housing'),
+        value: 150
+      },
     ];
     items.forEach(item => balance.addItem(item));
 
