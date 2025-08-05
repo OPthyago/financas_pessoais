@@ -1,5 +1,5 @@
-import { Category } from "./category";
-import { FinancialEstimate } from "./financialEstimate";
+import { Category } from "./category.model";
+import { FinancialEstimate } from "./financialEstimate.model";
 
 export type FinancialItemType = 'INCOME' | 'EXPENSE';
 
