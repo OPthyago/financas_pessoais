@@ -4,6 +4,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && tsc-alias",
+    "prisma:build": "node prisma/buildSchema.mjs",
+    "prisma:generate": "npm run prisma:build && prisma generate --schema=./prisma/test.schema.prisma && prisma generate",
+    "db:dev:migrate": "npm run prisma:build && prisma migrate dev",
+    "test:migrate": "npm run prisma:build && prisma migrate dev --name init-test --schema=./prisma/test.schema.prisma",
     "start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node -r tsconfig-paths/register src/main/server.ts'",
     "test": "jest --silent --watchAll"
   },
@@ -26,14 +30,17 @@
     "jest": "^30.0.4",
     "jest-mock-extended": "^4.0.0",
     "nodemon": "^3.1.10",
+    "prisma": "^6.11.1",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
+    "@prisma/client": "^6.11.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "graphql": "^16.11.0",

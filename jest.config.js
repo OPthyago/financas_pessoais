@@ -2,7 +2,14 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  roots: [
+    '<rootDir>/src',
+    '<rootDir>/tests'
+  ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
+    '@/tests/(.+)': '<rootDir>/tests/$1',
+    '@/(.+)': '<rootDir>/src/$1',
+    '@prisma/client': '<rootDir>/node_modules/.prisma/client-test'
+  }
+
 };
