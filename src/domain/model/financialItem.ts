@@ -1,3 +1,4 @@
+import { Category } from "./category";
 import { FinancialEstimate } from "./financialEstimate";
 
 export type FinancialItemType = 'INCOME' | 'EXPENSE';
@@ -9,7 +10,7 @@ export class FinancialItem {
     readonly id: string,
     readonly name: string,
     readonly type: FinancialItemType,
-    readonly category: string
+    readonly category: Category
   ) {
     this._values = new FinancialEstimate(0, 0, 0);
   }

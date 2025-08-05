@@ -1,30 +1,45 @@
-import { FinancialEstimate, FinancialItem, FinancialItemType } from '@/domain'
+import {
+  FinancialEstimate,
+  FinancialItem,
+  FinancialItemType,
+  Category
+} from '@/domain'
 
 describe('FinancialItem', () => {
+  let sut: FinancialItem;
+  let category: Category;
+  let id: string;
+  let name: string;
+  let type: FinancialItemType;
+
+  beforeAll(() => {
+    category = new Category('category_id_1', 'Salary');
+    id = 'some-unique-id-123';
+    name = 'Monthly Salary';
+    type = 'INCOME';
+  });
+
+  beforeEach(() => {
+    sut = new FinancialItem(id, name, type, category);
+  })
+
   it('should be created correctly with an ID, name, type, and a default zeroed estimate', () => {
-    const id = 'some-unique-id-123';
-    const name = 'Monthly Salary';
-    const type: FinancialItemType = 'INCOME';
+    expect(sut.id).toBe(id);
+    expect(sut.name).toBe(name);
+    expect(sut.type).toBe(type);
 
-    const item = new FinancialItem(id, name, type);
-
-    expect(item.id).toBe(id);
-    expect(item.name).toBe(name);
-    expect(item.type).toBe(type);
-
-    expect(item.values).toBeInstanceOf(FinancialEstimate);
-    expect(item.values.planned).toBe(0);
-    expect(item.values.adjusted).toBe(0);
-    expect(item.values.actual).toBe(0);
+    expect(sut.values).toBeInstanceOf(FinancialEstimate);
+    expect(sut.values.planned).toBe(0);
+    expect(sut.values.adjusted).toBe(0);
+    expect(sut.values.actual).toBe(0);
   });
 
   it('should update its financial values with a new estimate', () => {
-    const item = new FinancialItem('id-1', 'Test Item', 'EXPENSE', 'Test');
     const newValues = new FinancialEstimate(1000, 950, 950);
 
-    item.updateValues(newValues);
+    sut.updateValues(newValues);
 
-    expect(item.values).toBe(newValues);
-    expect(item.values.planned).toBe(1000);
+    expect(sut.values).toBe(newValues);
+    expect(sut.values.planned).toBe(1000);
   });
 })
