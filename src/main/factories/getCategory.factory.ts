@@ -1,11 +1,11 @@
 import { BaseController } from '@/infra/controllers';
 import { GetCategoryQuery, GetCategoryQueryHandler } from '@/application/useCases';
-import { InMemoryCategoryRepository } from '@/infra/repositories/inMemoryCategory.repository';
+import { PrismaCategoryRepository } from '@/infra/repositories';
 
 
 export const makeGetCategoryController = (): BaseController => {
-  const inMemoryCategoryRepository = new InMemoryCategoryRepository();
-  const handler = new GetCategoryQueryHandler(inMemoryCategoryRepository);
+  const prismaCategoryRepository = new PrismaCategoryRepository();
+  const handler = new GetCategoryQueryHandler(prismaCategoryRepository);
 
   return BaseController.forQuery({
     queryHandler: handler,
