@@ -10,9 +10,10 @@ export class FinancialItem {
     readonly id: string,
     readonly name: string,
     readonly type: FinancialItemType,
-    readonly category: Category
+    readonly category: Category,
+    readonly financialEstimate?: FinancialEstimate
   ) {
-    this._values = new FinancialEstimate(0, 0, 0);
+    this._values = financialEstimate ? financialEstimate : new FinancialEstimate(0, 0, 0);
   }
 
   get values(): FinancialEstimate {
