@@ -1,6 +1,6 @@
 import { ICommand } from '@/application/shared/';
 
-export class AddCategotyCommand implements ICommand {
+export class AddCategoryCommand implements ICommand {
   constructor(
     readonly id: string,
     readonly description: string

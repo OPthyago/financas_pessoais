@@ -15,4 +15,10 @@ export default gql`
     "Fetches a specific category by its ID."
     category(id: ID!): Category
   }
+
+  "Define all available write operations (mutations) in the API"
+  type Mutation {
+    "Add a new Category."
+    addCategory(description: String!, id: ID): Category 
+  }
 `;

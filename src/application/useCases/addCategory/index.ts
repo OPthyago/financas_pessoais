@@ -1,2 +1,2 @@
-export * from './addCategoty.command';
-export * from './addCategoty.handler';
+export * from './addCategory.command';
+export * from './addCategory.handler';
